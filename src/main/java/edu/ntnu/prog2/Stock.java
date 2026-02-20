@@ -32,8 +32,6 @@ public class Stock {
     }
 
     public void addNewSalesPrice(BigDecimal price) {
-        if (price != null) {
             prices.add(price);
-        }
     }
 }
