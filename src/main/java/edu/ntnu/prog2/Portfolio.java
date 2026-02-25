@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Portfolio {
 
-  private final ArrayList<Share> shares;
+  private final List<Share> shares;
 
   public Portfolio() {
     this.shares = new ArrayList<>();
