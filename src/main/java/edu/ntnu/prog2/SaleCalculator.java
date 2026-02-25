@@ -20,7 +20,8 @@ public class SaleCalculator implements TransactionCalculator{
 
     @Override
     public BigDecimal calculateCommission() {
-        return calculateGross().multiply(BigDecimal.valueOf(0.01));
+        BigDecimal commissionRate = new BigDecimal("0.01");
+        return calculateGross().multiply(commissionRate);
     }
 
     @Override
@@ -29,8 +30,9 @@ public class SaleCalculator implements TransactionCalculator{
         BigDecimal commission = calculateCommission();
         BigDecimal purchaseCost = purchasePrice.multiply(quantity);
         BigDecimal profit = gross.subtract(commission).subtract(purchaseCost);
+        BigDecimal taxRate = new BigDecimal("0.3");
 
-        return profit.multiply(BigDecimal.valueOf(0.3));
+        return profit.multiply(taxRate);
     }
 
     @Override
