@@ -1,6 +1,7 @@
 package edu.ntnu.prog2;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TransactionArchive {
 
@@ -17,7 +18,6 @@ public class TransactionArchive {
   public boolean isEmpty() {
     return transactions.isEmpty();
   }
-
   public List<Transaction> getTransactions(int week) {
     //TODO
   }
