@@ -1,5 +1,9 @@
 package edu.ntnu.prog2;
 
+import edu.ntnu.prog2.model.Transaction;
+import edu.ntnu.prog2.Purchase;
+import edu.ntnu.prog2.service.Sale;
+
 import java.util.ArrayList;
 import java.util.List;
 

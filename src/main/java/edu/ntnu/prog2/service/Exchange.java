@@ -1,5 +1,6 @@
 package edu.ntnu.prog2.service;
 
+import edu.ntnu.prog2.Purchase;
 import edu.ntnu.prog2.model.Player;
 import edu.ntnu.prog2.model.Share;
 import edu.ntnu.prog2.model.Stock;
