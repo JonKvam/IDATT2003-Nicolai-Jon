@@ -13,6 +13,15 @@ public class Player {
   private TransactionArchive transactionArchive;
 
   public Player(String name, BigDecimal startingMoney, BigDecimal money) {
+    if (name == null) {
+      throw new IllegalArgumentException("name cannot be null");
+    }
+    if (startingMoney == null) {
+      throw new IllegalArgumentException("startingMoney cannot be null");
+    }
+    if (money == null) {
+      throw new IllegalArgumentException("money cannot be null");
+    }
     this.name = name;
     this.startingMoney = startingMoney;
     this.money = money;
