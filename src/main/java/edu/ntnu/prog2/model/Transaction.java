@@ -9,15 +9,6 @@ public abstract class Transaction {
     private boolean committed;
 
     public Transaction(Share share, int week, TransactionCalculator calculator) {
-        if (share == null) {
-            throw new IllegalArgumentException("share cannot be null");
-        }
-        if (week < 0) {
-            throw new IllegalArgumentException("week cannot be negative");
-        }
-        if (calculator == null) {
-            throw new IllegalArgumentException("calculator cannot be null");
-        }
         this.share = share;
         this.week = week;
         this.calculator = calculator;
