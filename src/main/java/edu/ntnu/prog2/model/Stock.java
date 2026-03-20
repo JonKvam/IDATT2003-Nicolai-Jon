@@ -1,4 +1,4 @@
-package edu.ntnu.prog2;
+package edu.ntnu.prog2.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -32,8 +32,6 @@ public class Stock {
     }
 
     public void addNewSalesPrice(BigDecimal price) {
-        if (price != null) {
             prices.add(price);
-        }
     }
 }
