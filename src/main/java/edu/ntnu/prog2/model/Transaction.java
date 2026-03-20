@@ -1,4 +1,6 @@
-package edu.ntnu.prog2;
+package edu.ntnu.prog2.model;
+
+import edu.ntnu.prog2.calculator.TransactionCalculator;
 
 public abstract class Transaction {
     private final Share share;

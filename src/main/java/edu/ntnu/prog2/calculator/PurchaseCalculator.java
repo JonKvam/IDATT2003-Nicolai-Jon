@@ -1,8 +1,10 @@
-package edu.ntnu.prog2;
+package edu.ntnu.prog2.calculator;
+
+import edu.ntnu.prog2.model.Share;
 
 import java.math.BigDecimal;
 
-public class PurchaseCalculator implements TransactionCalculator{
+public class PurchaseCalculator implements TransactionCalculator {
     private final BigDecimal purchasePrice;
     private final BigDecimal quantity;
 

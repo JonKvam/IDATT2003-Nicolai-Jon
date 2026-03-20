@@ -1,4 +1,9 @@
-package edu.ntnu.prog2;
+package edu.ntnu.prog2.service;
+
+import edu.ntnu.prog2.calculator.PurchaseCalculator;
+import edu.ntnu.prog2.model.Player;
+import edu.ntnu.prog2.model.Share;
+import edu.ntnu.prog2.model.Transaction;
 
 public class Sale extends Transaction {
     public Sale(Share share, int week) {

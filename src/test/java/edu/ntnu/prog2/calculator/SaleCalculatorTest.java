@@ -1,5 +1,7 @@
-package edu.ntnu.prog2;
+package edu.ntnu.prog2.calculator;
 
+import edu.ntnu.prog2.model.Share;
+import edu.ntnu.prog2.model.Stock;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;

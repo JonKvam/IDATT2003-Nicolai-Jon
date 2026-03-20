@@ -1,7 +1,8 @@
-package edu.ntnu.prog2;
+package edu.ntnu.prog2.service;
+
+import edu.ntnu.prog2.model.Transaction;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TransactionArchive {
 
@@ -18,6 +19,7 @@ public class TransactionArchive {
   public boolean isEmpty() {
     return transactions.isEmpty();
   }
+  /*
   public List<Transaction> getTransactions(int week) {
     //TODO
   }
@@ -33,4 +35,5 @@ public class TransactionArchive {
   public int countDistinctWeeks() {
     //TODO
   }
+   */
 }

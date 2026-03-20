@@ -1,4 +1,9 @@
-package edu.ntnu.prog2;
+package edu.ntnu.prog2.service;
+
+import edu.ntnu.prog2.model.Player;
+import edu.ntnu.prog2.model.Share;
+import edu.ntnu.prog2.model.Stock;
+import edu.ntnu.prog2.model.Transaction;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

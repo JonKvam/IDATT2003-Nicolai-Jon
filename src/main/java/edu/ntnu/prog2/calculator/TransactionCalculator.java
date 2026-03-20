@@ -1,4 +1,4 @@
-package edu.ntnu.prog2;
+package edu.ntnu.prog2.calculator;
 
 import java.math.BigDecimal;
 

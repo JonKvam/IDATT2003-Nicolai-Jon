@@ -1,6 +1,7 @@
-package edu.ntnu.prog2;
+package edu.ntnu.prog2.model;
 
-import javax.sound.sampled.Port;
+import edu.ntnu.prog2.service.TransactionArchive;
+
 import java.math.BigDecimal;
 
 public class Player {
