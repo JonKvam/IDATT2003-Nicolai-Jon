@@ -3,8 +3,8 @@ package edu.ntnu.prog2.calculator;
 import java.math.BigDecimal;
 
 public interface TransactionCalculator {
-    BigDecimal calculateGross();
-    BigDecimal calculateCommission();
-    BigDecimal calculateTax();
-    BigDecimal calculateTotal();
+  BigDecimal calculateGross();
+  BigDecimal calculateCommission();
+  BigDecimal calculateTax();
+  BigDecimal calculateTotal();
 }
