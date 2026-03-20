@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class Player {
 
-  private String name;
+  private final String name;
   private BigDecimal startingMoney;
   private BigDecimal money;
   private Portfolio portfolio;
