@@ -10,6 +10,15 @@ public class Stock {
     private final List<BigDecimal> prices;
 
     public Stock(final String symbol, final String company, final BigDecimal salesPrice) {
+        if (symbol == null) {
+            throw new IllegalArgumentException("symbol cannot be null");
+        }
+        if (company == null) {
+            throw new IllegalArgumentException("company cannot be null");
+        }
+        if (salesPrice == null) {
+            throw new IllegalArgumentException("salesPrice cannot be null");
+        }
         this.symbol = symbol;
         this.company = company;
         this.prices = new ArrayList<>();
