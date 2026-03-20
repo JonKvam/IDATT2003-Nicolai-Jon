@@ -3,46 +3,46 @@ package edu.ntnu.prog2.model;
 import edu.ntnu.prog2.calculator.TransactionCalculator;
 
 public abstract class Transaction {
-    private final Share share;
-    private final int week;
-    private final TransactionCalculator calculator;
-    private boolean committed;
+  private final Share share;
+  private final int week;
+  private final TransactionCalculator calculator;
+  private boolean committed;
 
-    public Transaction(Share share, int week, TransactionCalculator calculator) {
-        if (share == null) {
-            throw new IllegalArgumentException("share cannot be null");
-        }
-        if (week < 0) {
-            throw new IllegalArgumentException("week cannot be negative");
-        }
-        if (calculator == null) {
-            throw new IllegalArgumentException("calculator cannot be null");
-        }
-        this.share = share;
-        this.week = week;
-        this.calculator = calculator;
-        this.committed = false;
+  public Transaction(Share share, int week, TransactionCalculator calculator) {
+    if (share == null) {
+      throw new IllegalArgumentException("share cannot be null");
     }
-
-    public Share getShare() {
-        return share;
+    if (week < 0) {
+      throw new IllegalArgumentException("week cannot be negative");
     }
-
-    public int getWeek() {
-        return week;
+    if (calculator == null) {
+      throw new IllegalArgumentException("calculator cannot be null");
     }
+    this.share = share;
+    this.week = week;
+    this.calculator = calculator;
+    this.committed = false;
+  }
 
-    public TransactionCalculator getCalculator() {
-        return calculator;
-    }
+  public Share getShare() {
+    return share;
+  }
 
-    public boolean isCommitted() {
-        return committed;
-    }
+  public int getWeek() {
+    return week;
+  }
 
-    protected void setCommitted(boolean committed) {
-        this.committed = committed;
-    }
+  public TransactionCalculator getCalculator() {
+    return calculator;
+  }
 
-    public abstract void commit(Player player);
+  public boolean isCommitted() {
+    return committed;
+  }
+
+  protected void setCommitted(boolean committed) {
+    this.committed = committed;
+  }
+
+  public abstract void commit(Player player);
 }
