@@ -47,7 +47,10 @@ public class TransactionArchive {
   }
 
   public int countDistinctWeeks() {
-    //TODO
+    return Math.toIntExact(transactions.stream()
+            .map(Transaction::getWeek)
+            .distinct()
+            .count());
   }
 
 }
