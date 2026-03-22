@@ -12,9 +12,7 @@ public class Sale extends Transaction {
 
     @Override
     public void commit(Player player) {
-        if (isCommitted()){
-            throw new IllegalStateException("Transaction already committed");
-        }
+        validateCommit(player);
         setCommitted(true);
     }
 }
