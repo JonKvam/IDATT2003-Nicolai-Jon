@@ -2,6 +2,7 @@ package edu.ntnu.prog2.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Stock {
@@ -33,5 +34,32 @@ public class Stock {
 
   public void addNewSalesPrice(BigDecimal price) {
     prices.add(price);
+  }
+
+  public List<BigDecimal> getHistoricalPrices() {
+    return new ArrayList<>(prices);
+  }
+
+  public BigDecimal getHighestPrice() {
+      if (prices.isEmpty()) {
+      return BigDecimal.ZERO;
+      }
+      return Collections.max(prices);
+  }
+
+  public BigDecimal getLowestPrice() {
+      if (prices.isEmpty()) {
+        return BigDecimal.ZERO;
+      }
+      return Collections.min(prices);
+  }
+
+  public BigDecimal getLatestPriceChange() {
+      if (prices.size() < 2) {
+        return BigDecimal.ZERO;
+      }
+      BigDecimal last = prices.getLast();
+      BigDecimal secondLast = prices.get(prices.size() - 2);
+      return  last.subtract(secondLast);
   }
 }
