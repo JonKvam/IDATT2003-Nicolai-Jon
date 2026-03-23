@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 class StockTest {
   private Stock stock;
@@ -36,5 +37,30 @@ class StockTest {
   void testAddNewSalesPrice() {
     stock.addNewSalesPrice(new BigDecimal("170"));
     assertEquals(new BigDecimal("170"), stock.getSalesPrice());
+  }
+
+  @Test
+  void testGetHistoricalPrices() {
+    stock.addNewSalesPrice(new BigDecimal("170"));
+    assertEquals(List.of(new BigDecimal("150"), new BigDecimal("170")), stock.getHistoricalPrices());
+  }
+
+  @Test
+  void testGetHighestPrice() {
+    stock.addNewSalesPrice(new BigDecimal("170"));
+    assertEquals(new BigDecimal("170"), stock.getHighestPrice());
+  }
+
+  @Test
+  void testGetLowestPrice() {
+    stock.addNewSalesPrice(new BigDecimal("90"));
+    assertEquals(new BigDecimal("90"), stock.getLowestPrice());
+  }
+
+  @Test
+  void testGetLatestPriceChange() {
+    stock.addNewSalesPrice(new BigDecimal("170"));
+    stock.addNewSalesPrice(new BigDecimal("90"));
+    assertEquals(new BigDecimal("-80"), stock.getLatestPriceChange());
   }
 }
