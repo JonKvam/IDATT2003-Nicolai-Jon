@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 class ExchangeTest {
+  private Stock stock;
   private Player player;
   private Exchange exchange;
 
@@ -16,7 +17,7 @@ class ExchangeTest {
 
   @BeforeEach
   void  setUp() {
-    Stock stock = new Stock("AAPL", "Apple", PRICE);
+    stock = new Stock("AAPL", "Apple", PRICE);
     this.exchange = new Exchange("Test exchange", List.of(stock));
     this.player = new Player("TestPlayer", BigDecimal.valueOf(10000), BigDecimal.valueOf(100));
   }
@@ -59,6 +60,51 @@ class ExchangeTest {
 
   @Test
   public void testBuy() {
+    Transaction transaction = exchange.buy("AAPL", BigDecimal.valueOf(2), player);
+    assertNotNull(transaction);
+  }
 
+  @Test
+  public void testSell() {
+    Share share = new Share(stock, BigDecimal.valueOf(2), BigDecimal.valueOf(100));
+    Transaction transaction = exchange.sell(share, player);
+    assertNotNull(transaction);
+  }
+
+  @Test
+  public void testAdvance() {
+    BigDecimal before = stock.getSalesPrice();
+    exchange.advance();
+    BigDecimal after = stock.getSalesPrice();
+    assertNotEquals(before, after);
+  }
+
+  @Test
+  public void testGetStockThrowException() {
+    assertThrows(IllegalArgumentException.class, () -> exchange.getStock(null));
+    assertThrows(IllegalArgumentException.class, () -> exchange.getStock(""));
+  }
+
+  @Test
+  public void testFindStocksThrowException() {
+    assertThrows(IllegalArgumentException.class, () -> exchange.findStocks(null));
+    assertThrows(IllegalArgumentException.class, () -> exchange.findStocks(""));
+  }
+
+  @Test
+  public void testBuyThrowException() {
+    Player poorPlayer = new Player("poor", BigDecimal.valueOf(1), BigDecimal.ZERO);
+    assertThrows(IllegalArgumentException.class, () -> exchange.buy("AAPL", BigDecimal.valueOf(10), poorPlayer));
+    assertThrows(IllegalArgumentException.class, () -> exchange.buy("AAPL",BigDecimal.valueOf(2), null));
+    assertThrows(IllegalArgumentException.class, () -> exchange.buy("AAPL",BigDecimal.valueOf(-1), player));
+  }
+
+  @Test
+  public void testSellThrowException() {
+    Share share = new Share(stock, BigDecimal.valueOf(1), PRICE);
+    Share illegalQuantityShare = new Share(stock, BigDecimal.valueOf(-1), PRICE);
+    assertThrows(IllegalArgumentException.class, () -> exchange.sell(share, null));
+    assertThrows(IllegalArgumentException.class, () -> exchange.sell(null, player));
+    assertThrows(IllegalArgumentException.class, () -> exchange.sell(illegalQuantityShare, player));
   }
 }
