@@ -25,6 +25,7 @@ public class Player {
     this.name = name;
     this.startingMoney = startingMoney;
     this.money = money;
+    //TODO
   }
 
   public String getName() {
@@ -40,7 +41,6 @@ public class Player {
     money = money.add(amount);
   }
 
-  //What is the purpose of this method?
   public void withdrawMoney(BigDecimal amount) {
     if(money == null) return;
     money = money.subtract(amount);
