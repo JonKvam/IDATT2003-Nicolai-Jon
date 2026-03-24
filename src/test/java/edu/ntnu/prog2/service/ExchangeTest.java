@@ -107,4 +107,42 @@ class ExchangeTest {
     assertThrows(IllegalArgumentException.class, () -> exchange.sell(null, player));
     assertThrows(IllegalArgumentException.class, () -> exchange.sell(illegalQuantityShare, player));
   }
+
+  @Test
+  public void testGetGainers() {
+    Stock s1 = new Stock("A", "A", BigDecimal.valueOf(100));
+    Stock s2 = new Stock("B", "B", BigDecimal.valueOf(100));
+    Stock s3 = new Stock("C", "C", BigDecimal.valueOf(100));
+
+    s1.addNewSalesPrice(BigDecimal.valueOf(110));
+    s2.addNewSalesPrice(BigDecimal.valueOf(105));
+    s3.addNewSalesPrice(BigDecimal.valueOf(90));
+
+    Exchange ex = new Exchange("Test", List.of(s1, s2, s3));
+
+    List<Stock> gainers = ex.getGainers(2);
+
+    assertEquals(2, gainers.size());
+    assertEquals("A", gainers.getFirst().getSymbol());
+    assertEquals("A", gainers.getFirst().getCompany());
+  }
+
+  @Test
+  public void testGetLosers() {
+    Stock s1 = new Stock("A", "A", BigDecimal.valueOf(100));
+    Stock s2 = new Stock("B", "B", BigDecimal.valueOf(100));
+    Stock s3 = new Stock("C", "C", BigDecimal.valueOf(100));
+
+    s1.addNewSalesPrice(BigDecimal.valueOf(90));
+    s2.addNewSalesPrice(BigDecimal.valueOf(95));
+    s3.addNewSalesPrice(BigDecimal.valueOf(110));
+
+    Exchange ex = new Exchange("Test", List.of(s1, s2, s3));
+
+    List<Stock> losers = ex.getLosers(2);
+
+    assertEquals(2, losers.size());
+    assertEquals("A", losers.getFirst().getSymbol());
+    assertEquals("A", losers.getFirst().getCompany());
+  }
 }

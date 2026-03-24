@@ -114,4 +114,26 @@ public class Exchange {
       stock.addNewSalesPrice(newPrice);
     }
   }
+
+  public List<Stock> getGainers(int limit) {
+    if  (limit < 0) {
+      throw new IllegalArgumentException("limit cannot be negative");
+    }
+    return stockMap.values().stream()
+            .filter(stock -> stock.getLatestPriceChange().compareTo(BigDecimal.ZERO) > 0)
+            .sorted((s1, s2) -> s2.getLatestPriceChange().compareTo(s1.getLatestPriceChange()))
+            .limit(limit)
+            .toList();
+  }
+
+  public List<Stock> getLosers(int limit) {
+    if (limit < 0) {
+      throw new IllegalArgumentException("limit cannot be negative");
+    }
+    return stockMap.values().stream()
+            .filter(stock -> stock.getLatestPriceChange().compareTo(BigDecimal.ZERO) < 0)
+            .sorted(Comparator.comparing(Stock::getLatestPriceChange))
+            .limit(limit)
+            .toList();
+  }
 }
