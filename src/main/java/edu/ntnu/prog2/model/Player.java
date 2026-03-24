@@ -6,11 +6,11 @@ import java.math.BigDecimal;
 
 public class Player {
 
-  private String name;
-  private BigDecimal startingMoney;
+  private final String name;
+  private final BigDecimal startingMoney;
   private BigDecimal money;
-  private Portfolio portfolio;
-  private TransactionArchive transactionArchive;
+  private final Portfolio portfolio;
+  private final TransactionArchive transactionArchive;
 
   public Player(String name, BigDecimal startingMoney, BigDecimal money) {
     if (name == null) {
@@ -25,6 +25,8 @@ public class Player {
     this.name = name;
     this.startingMoney = startingMoney;
     this.money = money;
+    portfolio = new Portfolio();
+    transactionArchive = new TransactionArchive();
   }
 
   public String getName() {
@@ -40,7 +42,6 @@ public class Player {
     money = money.add(amount);
   }
 
-  //What is the purpose of this method?
   public void withdrawMoney(BigDecimal amount) {
     if(money == null) return;
     money = money.subtract(amount);
