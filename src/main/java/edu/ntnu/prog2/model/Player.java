@@ -7,10 +7,10 @@ import java.math.BigDecimal;
 public class Player {
 
   private final String name;
-  private BigDecimal startingMoney;
+  private final BigDecimal startingMoney;
   private BigDecimal money;
-  private Portfolio portfolio;
-  private TransactionArchive transactionArchive;
+  private final Portfolio portfolio;
+  private final TransactionArchive transactionArchive;
 
   public Player(String name, BigDecimal startingMoney, BigDecimal money) {
     if (name == null) {
@@ -25,7 +25,8 @@ public class Player {
     this.name = name;
     this.startingMoney = startingMoney;
     this.money = money;
-    //TODO
+    portfolio = new Portfolio();
+    transactionArchive = new TransactionArchive();
   }
 
   public String getName() {
