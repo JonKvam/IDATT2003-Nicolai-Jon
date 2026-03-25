@@ -38,40 +38,46 @@ class PlayerTest {
     share1 = new Share(stock1, new BigDecimal("3"), new BigDecimal("1500"));
     share2 = new Share(stock2, new BigDecimal("10"), new BigDecimal("2000"));
     purchase1 = new Purchase(share1, 1);
-    purchase2 = new Purchase(share2, 1);
+    purchase2 = new Purchase(share2, 2);
     sale1 = new Sale(share1, 2);
-    portfolio = new Portfolio();
-    transactionArchive = new TransactionArchive();
     testPlayer = new Player(name, startingMoney, money);
 
   }
 
   @Test
-  void getName() {
-
+  void testGetName() {
+    assertEquals("testMan", testPlayer.getName());
   }
 
   @Test
-  void getMoney() {
+  void testGetMoney() {
+    assertEquals(new BigDecimal("2000"), testPlayer.getMoney());
   }
 
   @Test
-  void addMoney() {
+  void testAddMoney() {
+    testPlayer.addMoney(new BigDecimal("500"));
+    assertEquals(new BigDecimal("2500"), testPlayer.getMoney());
   }
 
   @Test
-  void withdrawMoney() {
+  void testWithdrawMoney() {
+    testPlayer.withdrawMoney(new BigDecimal("500"));
+    assertEquals(new BigDecimal("1500"), testPlayer.getMoney());
   }
 
   @Test
   void getPortfolio() {
-    portfolio.addShare(share1);
+    testPlayer.getPortfolio().addShare(share1);
+    testPlayer.getPortfolio().addShare(share2);
+    assertEquals(List.of(share1, share2), testPlayer.getPortfolio().getShares());
   }
 
   @Test
   void getTransactionArchive() {
-    transactionArchive.addTransaction(purchase1);
-    transactionArchive.addTransaction(purchase2);
-    transactionArchive.addTransaction(sale1);
+    testPlayer.getTransactionArchive().addTransaction(purchase1);
+    testPlayer.getTransactionArchive().addTransaction(purchase2);
+    testPlayer.getTransactionArchive().addTransaction(sale1);
+    assertEquals(List.of(purchase2, sale1), testPlayer.getTransactionArchive().getTransactions(2));
   }
 }
