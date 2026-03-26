@@ -1,8 +1,17 @@
 package edu.ntnu.prog2.model;
 
+import edu.ntnu.prog2.calculator.SaleCalculator;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for portfolios.
+ *
+ * <p>The class contains </p>
+ *
+ */
 public class Portfolio {
 
   private final List<Share> shares;
@@ -34,6 +43,17 @@ public class Portfolio {
   public boolean contains(Share share) {
     validateShare(share);
     return shares.contains(share);
+  }
+
+  public BigDecimal getNetWorth() {
+    BigDecimal netWorth = BigDecimal.ZERO;
+    SaleCalculator saleCalculator;
+    for (Share share : shares) {
+      saleCalculator = new SaleCalculator(share);
+      netWorth = netWorth.add(saleCalculator.calculateTotal());
+    }
+
+    return netWorth;
   }
 
   private void validateShare(Share share) {
