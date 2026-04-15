@@ -1,5 +1,6 @@
 package edu.ntnu.prog2.service;
 
+import edu.ntnu.prog2.factory.TransactionFactory;
 import edu.ntnu.prog2.model.Player;
 import edu.ntnu.prog2.model.Share;
 import edu.ntnu.prog2.model.Stock;
@@ -140,7 +141,11 @@ public class Exchange {
     }
 
     Share share = new Share(stock, quantity, stock.getSalesPrice());
-    return new Purchase(share, week);
+    return TransactionFactory.createTransaction(
+            TransactionFactory.TransactionType.PURCHASE,
+            share,
+            week
+    );
   }
 
   /**
@@ -162,7 +167,11 @@ public class Exchange {
       throw new IllegalArgumentException("Quantity must be greater than 0");
     }
 
-    return new Sale(share, week);
+    return TransactionFactory.createTransaction(
+            TransactionFactory.TransactionType.SALE,
+            share,
+            week
+      );
   }
 
   /**
