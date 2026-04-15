@@ -68,7 +68,7 @@ public class Player {
    * @param amount amount to be added to players balance
    */
   public void addMoney(BigDecimal amount) {
-    if(money == null) return;
+    if (money == null) return;
     money = money.add(amount);
   }
 
@@ -78,7 +78,7 @@ public class Player {
    * @param amount amount to be removed from a players balance
    */
   public void withdrawMoney(BigDecimal amount) {
-    if(money == null) return;
+    if (money == null) return;
     money = money.subtract(amount);
   }
 
@@ -98,5 +98,21 @@ public class Player {
    */
   public TransactionArchive getTransactionArchive() {
     return transactionArchive;
+  }
+
+  public BigDecimal getNetWorth() {
+    return money.add(portfolio.getNetWorth());
+  }
+
+  public String getTradingStatus() {
+    if (getTransactionArchive().countDistinctWeeks() >= 20
+            && getNetWorth().compareTo(startingMoney.multiply(new BigDecimal("2"))) >= 0) {
+      return "Speculator";
+    } else if (getTransactionArchive().countDistinctWeeks() >= 10
+              && getNetWorth().compareTo(startingMoney.multiply(new BigDecimal("1.2"))) >= 0) {
+      return "Investor";
+    } else {
+      return "Novice";
+    }
   }
 }
