@@ -54,9 +54,7 @@ public class Player {
   /**
    *get() method for money.
    *
-   * @return balance of player as BigDecimal
-   *
-   *
+   * @return balance of player as BigDecimal.
    */
   public BigDecimal getMoney() {
     return money;
@@ -65,7 +63,7 @@ public class Player {
   /**
    * Method for adding money to a players account.
    *
-   * @param amount amount to be added to players balance
+   * @param amount amount to be added to players balance.
    */
   public void addMoney(BigDecimal amount) {
     if (money == null) return;
@@ -75,7 +73,7 @@ public class Player {
   /**
    * Method for removing money from a players account.
    *
-   * @param amount amount to be removed from a players balance
+   * @param amount amount to be removed from a players balance.
    */
   public void withdrawMoney(BigDecimal amount) {
     if (money == null) return;
@@ -104,6 +102,11 @@ public class Player {
     return money.add(portfolio.getNetWorth());
   }
 
+  /**
+   * Method for getting a players trading status.
+   *
+   * @return trading status as a String.
+   */
   public String getTradingStatus() {
     if (getTransactionArchive().countDistinctWeeks() >= 20
             && getNetWorth().compareTo(startingMoney.multiply(new BigDecimal("2"))) >= 0) {
