@@ -1,7 +1,7 @@
 package edu.ntnu.prog2.model;
 
 import edu.ntnu.prog2.calculator.SaleCalculator;
-
+import edu.ntnu.prog2.observer.Observer;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,28 @@ import java.util.List;
 public class Portfolio {
 
   private final List<Share> shares;
+  private final List<Observer> observers = new ArrayList<>();
 
   public Portfolio() {
     this.shares = new ArrayList<>();
+  }
+
+  /**
+   * Add method for observer.
+   *
+   * @param observer the observer
+   */
+  public void addObserver(Observer observer) {
+    observers.add(observer);
+  }
+
+  /**
+   * Notify method for observers.
+   */
+  public void notifyObservers() {
+    for (Observer observer : observers) {
+      observer.update();
+    }
   }
 
   public boolean addShare(Share share) {
@@ -25,6 +44,7 @@ public class Portfolio {
     if (shares.contains(share)) {
       throw new IllegalArgumentException("share already exists in portfolio");
     }
+    notifyObservers();
     return shares.add(share);
   }
 
@@ -33,6 +53,7 @@ public class Portfolio {
     if (!shares.contains(share)) {
       throw new IllegalArgumentException("share does not exist in portfolio");
     }
+    notifyObservers();
     return shares.remove(share);
   }
 

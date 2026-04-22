@@ -5,6 +5,8 @@ import edu.ntnu.prog2.model.Player;
 import edu.ntnu.prog2.model.Share;
 import edu.ntnu.prog2.model.Stock;
 import edu.ntnu.prog2.model.Transaction;
+import edu.ntnu.prog2.observer.Observer;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class Exchange {
   private int week;
   private final Map<String, Stock> stockMap;
   private final Random random;
+  private final List<Observer> observers = new ArrayList<>();
 
   /**
    * Constructs a new exchange with a given name and list of stocks.
@@ -58,6 +61,24 @@ public class Exchange {
    */
   public int getWeek() {
     return week;
+  }
+
+  /**
+   * Add method for observer.
+   *
+   * @param observer the observer
+   */
+  public void addObserver(Observer observer) {
+    observers.add(observer);
+  }
+
+  /**
+   * Notify method for observers.
+   */
+  public void notifyObservers() {
+    for (Observer observer : observers) {
+      observer.update();
+    }
   }
 
   /**
@@ -190,6 +211,7 @@ public class Exchange {
       }
       stock.addNewSalesPrice(newPrice);
     }
+    notifyObservers();
   }
 
   /**
