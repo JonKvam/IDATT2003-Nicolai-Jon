@@ -1,7 +1,5 @@
 package edu.ntnu.prog2.factory;
 
-import edu.ntnu.prog2.calculator.PurchaseCalculator;
-import edu.ntnu.prog2.calculator.SaleCalculator;
 import edu.ntnu.prog2.model.Share;
 import edu.ntnu.prog2.model.Transaction;
 import edu.ntnu.prog2.service.Purchase;
