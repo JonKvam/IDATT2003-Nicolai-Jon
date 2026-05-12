@@ -137,6 +137,15 @@ public class Exchange {
   }
 
   /**
+   * Method for getting all the stocks.
+   *
+   * @return a list of all the stocks
+   */
+  public List<Stock> getAllStocks() {
+    return new  ArrayList<>(stockMap.values());
+  }
+
+  /**
    * Creates a transaction for buying stocks.
    *
    * @param symbol the stock symbol

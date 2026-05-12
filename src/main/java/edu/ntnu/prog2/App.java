@@ -18,30 +18,35 @@ import javafx.stage.Stage;
 
 public class App extends Application {
   private Stage stage;
+  private static Scene scene;
+
+  private WelcomeView welcomeView;
+  private MainView mainView;
 
   @Override
   public void start(Stage stage) {
 
     this.stage = stage;
+    scene = new Scene(new VBox(), 600, 450);
+    scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
     switchToWelcome();
 
     stage.setTitle("Millions");
+    stage.setScene(scene);
     stage.setMaximized(true);
     stage.show();
   }
 
   public void switchToWelcome() {
-    WelcomeView welcomeView = new WelcomeView(stage);
+    welcomeView = new WelcomeView(stage);
     new WelcomeController(welcomeView, this);
-    Scene scene = new Scene(welcomeView, 500, 400);
-    stage.setScene(scene);
+    scene.setRoot(welcomeView);
   }
 
   public void switchToMainView(GameController controller, Player player, Exchange exchange) {
-    MainView mainView = new MainView(controller, player, exchange);
-    Scene scene = new Scene(mainView, 800, 600);
-    stage.setScene(scene);
+    mainView = new MainView(controller, player, exchange);
+    scene.setRoot(mainView);
   }
 
   public void showPopupMessage(String messageToShow, Alert.AlertType type) {

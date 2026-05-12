@@ -62,4 +62,9 @@ public class Stock {
       BigDecimal secondLast = prices.get(prices.size() - 2);
       return  last.subtract(secondLast);
   }
+
+  @Override
+  public String toString() {
+    return symbol + " - " + company + " ($" + getSalesPrice() + ")";
+  }
 }
