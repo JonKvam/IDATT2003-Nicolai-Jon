@@ -3,9 +3,9 @@ package edu.ntnu.prog2.model;
 import java.math.BigDecimal;
 
 /**
- * Class for share.
+ * Representing a share of a company, a bundle of stocks.
  *
- * <p>The class a share. The share consists of a number of
+ * <p>The class represents a share. The share consists of a number of
  * stocks resulting in a value based on the amount of stocks. The class
  * consists of a constructor and some get-methods to access information. </p>
  *
