@@ -19,7 +19,7 @@ class ExchangeTest {
   void  setUp() {
     stock = new Stock("AAPL", "Apple", PRICE);
     this.exchange = new Exchange("Test exchange", List.of(stock));
-    this.player = new Player("TestPlayer", BigDecimal.valueOf(10000), BigDecimal.valueOf(100));
+    this.player = new Player("TestPlayer", BigDecimal.valueOf(10000), BigDecimal.valueOf(300));
   }
 
   @Test
