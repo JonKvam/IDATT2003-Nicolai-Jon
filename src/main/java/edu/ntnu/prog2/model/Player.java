@@ -1,7 +1,10 @@
 package edu.ntnu.prog2.model;
 
+import edu.ntnu.prog2.observer.Observer;
 import edu.ntnu.prog2.service.TransactionArchive;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for Player.
@@ -17,6 +20,7 @@ public class Player {
   private BigDecimal money;
   private final Portfolio portfolio;
   private final TransactionArchive transactionArchive;
+  private final List<Observer> observers = new ArrayList<>();
 
   /**
    * Constructor for Player.
@@ -61,6 +65,24 @@ public class Player {
   }
 
   /**
+   * Add method for observer.
+   *
+   * @param observer the observer
+   */
+  public void addObserver(Observer observer) {
+    observers.add(observer);
+  }
+
+  /**
+   * Notify method for observers.
+   */
+  public void notifyObservers() {
+    for (Observer observer : observers) {
+      observer.update();
+    }
+  }
+
+  /**
    * Method for adding money to a players account.
    *
    * @param amount amount to be added to players balance.
@@ -68,6 +90,7 @@ public class Player {
   public void addMoney(BigDecimal amount) {
     if (money == null) return;
     money = money.add(amount);
+    notifyObservers();
   }
 
   /**
@@ -78,6 +101,7 @@ public class Player {
   public void withdrawMoney(BigDecimal amount) {
     if (money == null) return;
     money = money.subtract(amount);
+    notifyObservers();
   }
 
   /**
