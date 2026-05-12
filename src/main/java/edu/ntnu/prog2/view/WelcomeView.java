@@ -23,6 +23,9 @@ public class WelcomeView extends VBox {
   private File selectedFile;
 
   public WelcomeView(Stage stage) {
+    setSpacing(10);
+    setPadding(new Insets(30));
+
     nameField = new TextField();
     nameField.setPromptText("Enter your name");
 
