@@ -89,6 +89,7 @@ public class MainView extends VBox implements Observer {
     filtering.setPromptText("Filter stocks");
     filtering.getItems().addAll("Alphabetical", "Highest price", "Lowest price");
     filtering.setOnAction(event -> updateStockList());
+    filtering.setValue("Alphabetical");
 
     stockList = new ListView<>();
     stockList.getItems().setAll(exchange.getAllStocks());
@@ -142,5 +143,8 @@ public class MainView extends VBox implements Observer {
   public void update() {
     moneyLabel.setText("Money: " + player.getMoney());
     weekLabel.setText("Week: " + exchange.getWeek());
+    updateStockList();
+    bestPerformingStockList.getItems().setAll(exchange.getGainers(9));
+    worstPerformingStockList.getItems().setAll(exchange.getLosers(9));
   }
 }

@@ -10,11 +10,11 @@ public class Stock {
   private final String company;
   private final List<BigDecimal> prices;
 
-    public Stock(final String symbol, final String company, final BigDecimal salesPrice) {
-        this.symbol = symbol;
-        this.company = company;
-        this.prices = new ArrayList<>();
-        this.prices.add(salesPrice);
+  public Stock(final String symbol, final String company, final BigDecimal salesPrice) {
+    this.symbol = symbol;
+    this.company = company;
+    this.prices = new ArrayList<>();
+    this.prices.add(salesPrice);
     }
 
   public String getSymbol() {
@@ -41,30 +41,38 @@ public class Stock {
   }
 
   public BigDecimal getHighestPrice() {
-      if (prices.isEmpty()) {
+    if (prices.isEmpty()) {
       return BigDecimal.ZERO;
       }
-      return Collections.max(prices);
+    return Collections.max(prices);
   }
 
   public BigDecimal getLowestPrice() {
-      if (prices.isEmpty()) {
-        return BigDecimal.ZERO;
-      }
-      return Collections.min(prices);
+    if (prices.isEmpty()) {
+      return BigDecimal.ZERO;
+    }
+    return Collections.min(prices);
   }
 
   public BigDecimal getLatestPriceChange() {
-      if (prices.size() < 2) {
-        return BigDecimal.ZERO;
-      }
-      BigDecimal last = prices.getLast();
-      BigDecimal secondLast = prices.get(prices.size() - 2);
-      return  last.subtract(secondLast);
+    if (prices.size() < 2) {
+      return BigDecimal.ZERO;
+    }
+    BigDecimal last = prices.getLast();
+    BigDecimal secondLast = prices.get(prices.size() - 2);
+    return  last.subtract(secondLast);
   }
 
   @Override
   public String toString() {
-    return symbol + " - " + company + " ($" + getSalesPrice() + ")";
+    BigDecimal latestPriceChange = getLatestPriceChange();
+    String changeText;
+
+    if (latestPriceChange.compareTo(BigDecimal.ZERO) > 0) {
+      changeText = "+ " + latestPriceChange;
+    } else {
+      changeText = latestPriceChange.toString();
+    }
+    return symbol + " - " + company + " ($" + getSalesPrice() + ") " + changeText;
   }
 }
