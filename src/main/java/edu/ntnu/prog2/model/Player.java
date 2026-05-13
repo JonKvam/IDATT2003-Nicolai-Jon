@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class for Player.
+ * Representing a user or player in the game.
  *
  * <p>The class represents a player of the game. The class
  * has a constructor and methods to keep track of the players
