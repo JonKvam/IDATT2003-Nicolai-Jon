@@ -13,17 +13,10 @@ import edu.ntnu.prog2.model.Transaction;
  * @author Nicolai
  */
 public class Sale extends Transaction {
-
-  /**
-   * Constructor for sales.
-   *
-   * @param share share to be sold
-   * @param week week when sale takes place
-   */
   public Sale(Share share, int week) {
     super(share, week, new PurchaseCalculator(share));
   }
-
+  
   /**
    * Validates and commits a sale.
    *
@@ -32,6 +25,8 @@ public class Sale extends Transaction {
   @Override
   public void commit(Player player) {
     validateCommit(player);
-    setCommitted(true);
+    player.addMoney(calculator.calculateTotal());
+    player.getPortfolio().removeShare(getShare());
+    player.getTransactionArchive().addTransaction(this);
   }
 }

@@ -13,25 +13,21 @@ import edu.ntnu.prog2.model.Transaction;
  * @author Nicolai
  */
 public class Purchase extends Transaction {
-
+  public Purchase(Share share, int week){
+    super(share, week, new PurchaseCalculator(share));
+  }
+  
   /**
    * Constructor for purchase.
    *
    * @param share instance of share to be bought
    * @param week the week of which the purchase takes place
    */
-  public Purchase(Share share, int week) {
-    super(share, week, new PurchaseCalculator(share));
-  }
-
-  /**
-   * Validates and commits a purchase.
-   *
-   * @param player player to commit purchase
-   */
   @Override
   public void commit(Player player) {
     validateCommit(player);
-    setCommitted(true);
+    player.withdrawMoney(calculator.calculateTotal());
+    player.getPortfolio().addShare(getShare());
+    player.getTransactionArchive().addTransaction(this);
   }
 }

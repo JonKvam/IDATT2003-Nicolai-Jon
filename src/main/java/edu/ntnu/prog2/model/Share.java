@@ -55,4 +55,10 @@ public class Share {
   public BigDecimal getPurchasePrice() {
     return purchasePrice;
   }
+
+  @Override
+  public String toString() {
+
+    return stock.getSymbol() + " - Quantity: " + quantity + " - Bought at: $" + purchasePrice;
+  }
 }

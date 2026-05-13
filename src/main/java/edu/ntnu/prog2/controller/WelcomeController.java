@@ -31,9 +31,7 @@ public class WelcomeController {
   private void setupViewActions() {
 
     welcomeView.setStartGameBtnOnAction(e -> {
-
       try {
-
         String playerName = welcomeView.getPlayerName();
         String startCapitalText = welcomeView.getStartCapital();
 
@@ -48,35 +46,15 @@ public class WelcomeController {
                 welcomeView.getSelectedFile().getAbsolutePath()
         );
 
-        Player player = new Player(
-                playerName,
-                startCapital,
-                startCapital
-        );
-
+        Player player = new Player(playerName, startCapital, startCapital);
         Exchange exchange = new Exchange("Stock Exchange", stocks);
-
         GameController gameController = new GameController(player, exchange);
-
-        app.switchToMainView(
-                gameController,
-                player,
-                exchange
-        );
+        app.switchToMainView(gameController, player, exchange);
 
       } catch (NumberFormatException er) {
-
-        app.showPopupMessage(
-                "Start capital must be a valid number",
-                AlertType.ERROR
-        );
-
+        app.showPopupMessage("Start capital must be a valid number", AlertType.ERROR);
       } catch (IOException er) {
-
-        app.showPopupMessage(
-                "Could not read CSV file",
-                AlertType.ERROR
-        );
+        app.showPopupMessage("Could not read CSV file", AlertType.ERROR);
       }
     });
   }
