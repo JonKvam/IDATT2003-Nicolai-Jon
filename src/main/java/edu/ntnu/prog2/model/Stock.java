@@ -121,6 +121,14 @@ public class Stock {
 
   @Override
   public String toString() {
-    return symbol + " - " + company + " ($" + getSalesPrice() + ")";
+    BigDecimal latestPriceChange = getLatestPriceChange();
+    String changeText;
+
+    if (latestPriceChange.compareTo(BigDecimal.ZERO) > 0) {
+      changeText = "+ " + latestPriceChange;
+    } else {
+      changeText = latestPriceChange.toString();
+    }
+    return symbol + " - " + company + " ($" + getSalesPrice() + ") " + changeText;
   }
 }

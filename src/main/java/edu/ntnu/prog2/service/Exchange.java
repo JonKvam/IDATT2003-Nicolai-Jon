@@ -212,7 +212,7 @@ public class Exchange {
     week++;
     for (Stock stock : stockMap.values()) {
       BigDecimal currentPrice = stock.getSalesPrice();
-      double changePercent = (random.nextDouble() - 0.5) * 0.10;
+      double changePercent = (random.nextDouble() - 0.48) * (random.nextDouble(0.05, 0.3));
       BigDecimal changeFactor = BigDecimal.valueOf(1 + changePercent);
       BigDecimal newPrice = currentPrice.multiply(changeFactor).setScale(2, RoundingMode.HALF_UP);
       if (newPrice.compareTo(BigDecimal.ONE) > 0) {
