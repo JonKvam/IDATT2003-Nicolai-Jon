@@ -1,0 +1,22 @@
+
+.root {
+    -fx-background-color: #B3B3B3;
+}
+
+.p {
+    -fx-font-size: 15px;
+    -fx-text-fill: #1C1B1F;
+    -fx-text-align: center;
+}
+
+.input-field {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #79747E;
+    -fx-border-width: 1.5;
+    -fx-padding: 5 10 5 10;
+    -fx-border-radius: 5;
+    -fx-pref-width: 500;
+    -fx-max-width: 500;
+    -fx-font-size: 15px;
+    -fx-text-fill: #1C1B1F;
+}
