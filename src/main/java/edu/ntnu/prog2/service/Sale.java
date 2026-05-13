@@ -6,13 +6,16 @@ import edu.ntnu.prog2.model.Share;
 import edu.ntnu.prog2.model.Transaction;
 
 public class Sale extends Transaction {
-    public Sale(Share share, int week) {
-        super(share, week, new PurchaseCalculator(share));
-    }
+  public Sale(Share share, int week) {
+    super(share, week, new PurchaseCalculator(share));
+  }
 
-    @Override
-    public void commit(Player player) {
-        validateCommit(player);
-        setCommitted(true);
-    }
+  @Override
+  public void commit(Player player) {
+    validateCommit(player);
+    player.addMoney(calculator.calculateTotal());
+    player.getPortfolio().removeShare(getShare());
+    player.getTransactionArchive().addTransaction(this);
+    setCommitted(true);
+  }
 }

@@ -1,8 +1,8 @@
 package edu.ntnu.prog2.view;
 
+import edu.ntnu.prog2.App;
 import edu.ntnu.prog2.controller.GameController;
 import edu.ntnu.prog2.model.Player;
-import edu.ntnu.prog2.model.Share;
 import edu.ntnu.prog2.model.Stock;
 import edu.ntnu.prog2.observer.Observer;
 import edu.ntnu.prog2.service.Exchange;
@@ -10,6 +10,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+
+import java.math.BigDecimal;
+import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -18,16 +21,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.math.BigDecimal;
-import java.util.List;
 
 public class MainView extends VBox implements Observer {
   private final GameController controller;
   private final Player player;
   private final Exchange exchange;
+  private final App app;
   private EventHandler<ActionEvent> searchAction;
   private Label moneyLabel;
-  private Label netWorthLabel;
   private Label weekLabel;
   private ListView<Stock> bestPerformingStockList;
   private ListView<Stock> worstPerformingStockList;
@@ -36,7 +37,8 @@ public class MainView extends VBox implements Observer {
   private ComboBox<String> filtering;
 
 
-  public MainView(GameController controller, Player player, Exchange exchange) {
+  public MainView(App app, GameController controller, Player player, Exchange exchange) {
+    this.app = app;
     this.controller = controller;
     this.player = player;
     this.exchange = exchange;
@@ -49,6 +51,18 @@ public class MainView extends VBox implements Observer {
   private void setupUserInterface() {
     setSpacing(10);
     setPadding(new Insets(30));
+
+    Button exchangeBtn =  new Button(" Stock Exchange");
+    Button transactionBtn =  new Button(" Stock Transaction");
+    Button portfolioBtn =  new Button(" Stock Portfolio");
+
+    portfolioBtn.setOnAction(e -> {
+      app.switchToPortfolioView(controller, player, exchange);
+    });
+
+    HBox topMenu = new HBox(20);
+
+    topMenu.getChildren().addAll(exchangeBtn, transactionBtn, portfolioBtn);
 
     moneyLabel = new Label();
     weekLabel = new Label();
@@ -98,10 +112,17 @@ public class MainView extends VBox implements Observer {
     nextWeekBtn.setOnAction(e -> controller.nextWeek());
 
     Button buyBtn = new Button("Buy selected");
+    buyBtn.setOnAction(e -> {
+      Stock selectedStock = stockList.getSelectionModel().getSelectedItem();
 
-    Button sellBtn = new Button("Sell selected");
+      if (selectedStock != null) {
+        controller.buyStock(selectedStock.getSymbol(), BigDecimal.ONE);
+      }
+      update();
+    });
 
     getChildren().addAll(
+            topMenu,
             weekLabel,
             moneyLabel,
             searchField,
@@ -109,7 +130,6 @@ public class MainView extends VBox implements Observer {
             stockList,
             performanceBox,
             buyBtn,
-            sellBtn,
             nextWeekBtn
     );
   }
