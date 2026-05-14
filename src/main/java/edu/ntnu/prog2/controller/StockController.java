@@ -8,6 +8,7 @@ import edu.ntnu.prog2.view.StockView;
 import javafx.scene.control.Alert;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class StockController {
   private StockView stockView;
@@ -52,6 +53,37 @@ public class StockController {
 
     stockView.getBackBtn().setOnAction(event -> {
       app.switchToMainView(gameController, player, exchange);
+    });
+
+    stockView.getQuantityTextField().textProperty().addListener((observable, oldValue, newValue) -> {
+      if (!newValue.matches("\\d*")) {
+        stockView.getQuantityTextField().setText(newValue.replaceAll("\\D", ""));
+      }
+    });
+
+    stockView.getIncreaseBtn().setOnAction(event -> {
+      String text = stockView.getQuantityTextField().getText();
+      int value = text.isEmpty() ? 0 : Integer.parseInt(text);
+      value++;
+      stockView.getQuantityTextField().setText(String.valueOf(value));
+    });
+
+    stockView.getDecreaseBtn().setOnAction(event -> {
+      String text = stockView.getQuantityTextField().getText();
+      int value = text.isEmpty() ? 0 : Integer.parseInt(text);
+      if (value > 0) {
+        value--;
+      }
+      stockView.getQuantityTextField().setText(String.valueOf(value));
+    });
+
+    stockView.getMaxBtn().setOnAction(event -> {
+      BigDecimal maxShares = player.getMoney().divide(stock.getSalesPrice(), 0, RoundingMode.DOWN);
+      stockView.getQuantityTextField().setText(String.valueOf(maxShares));
+    });
+
+    stockView.getMinBtn().setOnAction(event -> {
+      stockView.getQuantityTextField().setText(String.valueOf(BigDecimal.ONE));
     });
   }
 }

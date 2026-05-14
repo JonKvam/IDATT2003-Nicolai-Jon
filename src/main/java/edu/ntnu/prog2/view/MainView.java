@@ -2,6 +2,7 @@ package edu.ntnu.prog2.view;
 
 import edu.ntnu.prog2.App;
 import edu.ntnu.prog2.controller.GameController;
+import edu.ntnu.prog2.controller.StockController;
 import edu.ntnu.prog2.model.Player;
 import edu.ntnu.prog2.model.Stock;
 import edu.ntnu.prog2.observer.Observer;
@@ -21,10 +22,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 
-public class MainView extends VBox implements Observer {
+
+public class MainView extends StackPane implements Observer {
   private final GameController controller;
   private final Player player;
   private final Exchange exchange;
@@ -37,6 +40,7 @@ public class MainView extends VBox implements Observer {
   private ListView<Stock> stockList;
   private TextField searchField;
   private ComboBox<String> filtering;
+  private StackPane overlayPane;
 
 
   public MainView(App app, GameController controller, Player player, Exchange exchange) {
@@ -51,8 +55,8 @@ public class MainView extends VBox implements Observer {
   }
 
   private void setupUserInterface() {
-    setSpacing(10);
-    setPadding(new Insets(30));
+    VBox contentBox = new VBox(10);
+    contentBox.setPadding(new Insets(30));
 
     Button exchangeBtn =  new Button(" Stock Exchange");
     Button transactionBtn =  new Button(" Stock Transaction");
@@ -74,7 +78,9 @@ public class MainView extends VBox implements Observer {
     best.getStyleClass().add("p");
 
     bestPerformingStockList = new ListView<>();
-    bestPerformingStockList.setPrefWidth(500);
+    bestPerformingStockList.setFixedCellSize(40);
+    setupStockListCellFactory(bestPerformingStockList, 80, 100, 100);
+    bestPerformingStockList.setPrefWidth(800);
 
     VBox bestBox = new VBox(10);
     bestBox.setAlignment(Pos.TOP_CENTER);
@@ -84,7 +90,9 @@ public class MainView extends VBox implements Observer {
     worst.getStyleClass().add("p");
 
     worstPerformingStockList = new ListView<>();
-    worstPerformingStockList.setPrefWidth(500);
+    worstPerformingStockList.setFixedCellSize(40);
+    setupStockListCellFactory(worstPerformingStockList, 80, 100, 100);
+    worstPerformingStockList.setPrefWidth(800);
 
     VBox worstBox = new VBox(10);
     worstBox.setAlignment(Pos.TOP_CENTER);
@@ -108,8 +116,65 @@ public class MainView extends VBox implements Observer {
     filtering.setValue("Alphabetical");
 
     stockList = new ListView<>();
-    stockList.setCellFactory(listView -> new javafx.scene.control.ListCell<>() {
-      private final Button seeMoreBtn = new Button("See more");
+    stockList.setFixedCellSize(40);
+    setupStockListCellFactory(stockList, 80, 225, 100);
+    stockList.setPrefWidth(500);
+    stockList.getItems().setAll(exchange.getAllStocks());
+
+    Button nextWeekBtn = new Button("Next Week");
+    nextWeekBtn.setOnAction(e -> controller.nextWeek());
+
+    Button buyBtn = new Button("Buy selected");
+    buyBtn.setOnAction(e -> {
+      Stock selectedStock = stockList.getSelectionModel().getSelectedItem();
+
+      if (selectedStock != null) {
+        controller.buyStock(selectedStock.getSymbol(), BigDecimal.ONE);
+      }
+      update();
+    });
+
+    contentBox.getChildren().addAll(
+            topMenu,
+            weekLabel,
+            moneyLabel,
+            searchField,
+            filtering,
+            stockList,
+            performanceBox,
+            buyBtn,
+            nextWeekBtn
+    );
+
+    overlayPane = new StackPane();
+    overlayPane.setVisible(false);
+    overlayPane.getStyleClass().add("overlay-pane");
+
+    getChildren().addAll(contentBox, overlayPane);
+  }
+
+  private void registerObservers() {
+    player.addObserver(this);
+    exchange.addObserver(this);
+  }
+
+  private void showStockOverlay(Stock stock) {
+    overlayPane.getChildren().clear();
+    StockView stockView = new StockView();
+    stockView.setMaxWidth(600);
+    stockView.setMaxHeight(600);
+    stockView.getStyleClass().add("stock-view");
+    new StockController(stockView, stock, player, exchange, controller, app);
+    stockView.getBackBtn().setOnAction(event -> {
+      overlayPane.setVisible(false);
+    });
+    overlayPane.getChildren().add(stockView);
+    overlayPane.setVisible(true);
+  }
+
+  private void setupStockListCellFactory(ListView<Stock> listView, int symbolWidth, int companyWidth, int priceWidth) {
+    listView.setCellFactory(view -> new javafx.scene.control.ListCell<>() {
+      private final Button seeMoreBtn = new Button("See More");
 
       @Override
       protected void updateItem(Stock stock, boolean empty) {
@@ -119,15 +184,19 @@ public class MainView extends VBox implements Observer {
           setGraphic(null);
         } else {
           seeMoreBtn.setOnAction(event -> {
-            app.switchToStockView(stock, controller, player, exchange);
+            showStockOverlay(stock);
           });
           HBox cellBox = new HBox(20);
+          cellBox.setAlignment(Pos.CENTER_LEFT);
           Label symbolLabel = new Label(stock.getSymbol());
-          symbolLabel.setPrefWidth(80);
+          symbolLabel.setPrefWidth(symbolWidth);
+          symbolLabel.setAlignment(Pos.CENTER_LEFT);
           Label companyLabel = new Label(stock.getCompany());
-          companyLabel.setPrefWidth(250);
+          companyLabel.setPrefWidth(companyWidth);
+          symbolLabel.setAlignment(Pos.CENTER_LEFT);
           Label priceLabel = new Label(stock.getSalesPrice().toString());
-          priceLabel.setPrefWidth(100);
+          priceLabel.setPrefWidth(priceWidth);
+          symbolLabel.setAlignment(Pos.CENTER_LEFT);
 
           String changeText;
           if (stock.getLatestPriceChange().compareTo(BigDecimal.ZERO) > 0) {
@@ -152,38 +221,6 @@ public class MainView extends VBox implements Observer {
         }
       }
     });
-    stockList.setPrefWidth(500);
-    stockList.getItems().setAll(exchange.getAllStocks());
-
-    Button nextWeekBtn = new Button("Next Week");
-    nextWeekBtn.setOnAction(e -> controller.nextWeek());
-
-    Button buyBtn = new Button("Buy selected");
-    buyBtn.setOnAction(e -> {
-      Stock selectedStock = stockList.getSelectionModel().getSelectedItem();
-
-      if (selectedStock != null) {
-        controller.buyStock(selectedStock.getSymbol(), BigDecimal.ONE);
-      }
-      update();
-    });
-
-    getChildren().addAll(
-            topMenu,
-            weekLabel,
-            moneyLabel,
-            searchField,
-            filtering,
-            stockList,
-            performanceBox,
-            buyBtn,
-            nextWeekBtn
-    );
-  }
-
-  private void registerObservers() {
-    player.addObserver(this);
-    exchange.addObserver(this);
   }
 
   private void updateStockList() {
