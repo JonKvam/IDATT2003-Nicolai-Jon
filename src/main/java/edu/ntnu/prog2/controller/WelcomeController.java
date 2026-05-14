@@ -6,17 +6,30 @@ import edu.ntnu.prog2.model.Player;
 import edu.ntnu.prog2.model.Stock;
 import edu.ntnu.prog2.service.Exchange;
 import edu.ntnu.prog2.view.WelcomeView;
-import javafx.scene.control.Alert.AlertType;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import javafx.scene.control.Alert.AlertType;
 
+/**
+ * Controller for welcome screen, used to set up game.
+ *
+ * <p>Reads player input and .csv file and transitions the information
+ * to main game upon a valid start.</p>
+ *
+ * @author Nicolai
+ */
 public class WelcomeController {
 
   private final WelcomeView welcomeView;
   private final App app;
 
+  /**
+   * Constructs a WelcomeController.
+   *
+   * @param welcomeView the view of which the controller manages
+   * @param app the main application
+   */
   public WelcomeController(
           WelcomeView welcomeView,
           App app
