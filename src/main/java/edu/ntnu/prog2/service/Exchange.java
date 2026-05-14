@@ -6,7 +6,6 @@ import edu.ntnu.prog2.model.Share;
 import edu.ntnu.prog2.model.Stock;
 import edu.ntnu.prog2.model.Transaction;
 import edu.ntnu.prog2.observer.Observer;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -19,7 +18,11 @@ import java.util.Random;
 
 /**
  * Represents a stock exchange where players can buy and sell stocks.
- * The exchange keeps track of available stocks, current week, and simulates prices over time.
+ *
+ * <p>The exchange keeps track of available stocks, current week, and simulates prices over time.
+ * There's also methods to sort through to access information and methods to notify observers.</p>
+ *
+ * @author Nicolai
  */
 public class Exchange {
   private final String name;

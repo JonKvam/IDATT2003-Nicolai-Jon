@@ -12,6 +12,8 @@ import java.util.List;
  * <p>The class represents a player of the game. The class
  * has a constructor and methods to keep track of the players
  * actions, shares and balance. </p>
+ *
+ * @author Jon
  */
 public class Player {
 
@@ -47,7 +49,7 @@ public class Player {
   }
 
   /**
-   *get() method for name.
+   * Get() method for name.
    *
    * @return name of player as a String
    */
@@ -56,7 +58,7 @@ public class Player {
   }
 
   /**
-   *get() method for money.
+   * Get() method for money.
    *
    * @return balance of player as BigDecimal.
    */
@@ -88,7 +90,9 @@ public class Player {
    * @param amount amount to be added to players balance.
    */
   public void addMoney(BigDecimal amount) {
-    if (money == null) return;
+    if (money == null) {
+      return;
+    }
     money = money.add(amount);
     notifyObservers();
   }
@@ -99,7 +103,9 @@ public class Player {
    * @param amount amount to be removed from a players balance.
    */
   public void withdrawMoney(BigDecimal amount) {
-    if (money == null) return;
+    if (money == null) {
+      return;
+    }
     money = money.subtract(amount);
     notifyObservers();
   }
