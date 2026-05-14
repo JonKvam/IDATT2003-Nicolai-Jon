@@ -19,6 +19,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 
@@ -106,6 +108,51 @@ public class MainView extends VBox implements Observer {
     filtering.setValue("Alphabetical");
 
     stockList = new ListView<>();
+    stockList.setCellFactory(listView -> new javafx.scene.control.ListCell<>() {
+      private final Button seeMoreBtn = new Button("See more");
+
+      @Override
+      protected void updateItem(Stock stock, boolean empty) {
+        super.updateItem(stock, empty);
+        if (empty || stock == null) {
+          setText(null);
+          setGraphic(null);
+        } else {
+          seeMoreBtn.setOnAction(event -> {
+            app.switchToStockView(stock, controller, player, exchange);
+          });
+          HBox cellBox = new HBox(20);
+          Label symbolLabel = new Label(stock.getSymbol());
+          symbolLabel.setPrefWidth(80);
+          Label companyLabel = new Label(stock.getCompany());
+          companyLabel.setPrefWidth(250);
+          Label priceLabel = new Label(stock.getSalesPrice().toString());
+          priceLabel.setPrefWidth(100);
+
+          String changeText;
+          if (stock.getLatestPriceChange().compareTo(BigDecimal.ZERO) > 0) {
+            changeText = "+ " + stock.getLatestPriceChange();
+          } else if (stock.getLatestPriceChange().compareTo(BigDecimal.ZERO) < 0) {
+            changeText = " " + stock.getLatestPriceChange();
+          } else {
+            changeText = "0.00";
+          }
+          Label changeTextLabel = new Label(changeText);
+          changeTextLabel.setPrefWidth(100);
+          Region spacer1 = new Region();
+          Region spacer2 = new Region();
+          Region spacer3 = new Region();
+          Region spacer4 = new Region();
+          HBox.setHgrow(spacer1, Priority.ALWAYS);
+          HBox.setHgrow(spacer2, Priority.ALWAYS);
+          HBox.setHgrow(spacer3, Priority.ALWAYS);
+          HBox.setHgrow(spacer4, Priority.ALWAYS);
+          cellBox.getChildren().addAll(symbolLabel, spacer1, companyLabel, spacer2, priceLabel, spacer3, changeTextLabel, spacer4, seeMoreBtn);
+          setGraphic(cellBox);
+        }
+      }
+    });
+    stockList.setPrefWidth(500);
     stockList.getItems().setAll(exchange.getAllStocks());
 
     Button nextWeekBtn = new Button("Next Week");
